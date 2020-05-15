@@ -1,0 +1,3 @@
+export BERT_BASE_DIR=./bert-tiny/   # 2/128 (BERT-Tiny) L=2 H=128
+python pytorch_pretrained_bert/convert_tf_checkpoint_to_pytorch.py --tf_checkpoint_path=$BERT_BASE_DIR/bert_model.ckpt --bert_config_file=$BERT_BASE_DIR/bert_config.json --pytorch_dump_path=$BERT_BASE_DIR/pytorch_model.bin
+python run_dream.py --task_name dream --do_train --do_eval --data_dir . --vocab_file $BERT_BASE_DIR/vocab.txt --bert_config_file $BERT_BASE_DIR/bert_config.json --init_checkpoint $BERT_BASE_DIR/pytorch_model.bin --max_seq_length 512 --train_batch_size 24 --learning_rate 2e-5 --num_train_epochs 8.0 --output_dir dream_finetuned --gradient_accumulation_steps 3
